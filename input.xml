@@ -1,0 +1,37 @@
+<simulation verbosity='high'>
+	<output prefix='simulation'>
+		<properties stride='1' filename='out'>  [step, time{femtosecond}, conserved{kelvin}, temperature{kelvin}, kinetic_cv{kelvin}, potential{electronvolt}, pressure_cv{bar}] </properties>
+		<trajectory filename='pos' stride='1' format='xyz' cell_units='angstrom'> positions{angstrom} </trajectory>
+		<trajectory filename='vel' stride='1' format='xyz' cell_units='angstrom'> velocities </trajectory>
+		<checkpoint filename='chk' stride='10' overwrite='True'/>
+	</output>
+	<total_steps> 3 </total_steps>
+	<prng>
+		<seed> 3348 </seed>
+	</prng>
+	<ffsocket mode='inet' name='driver' pbc='False'>
+		<address>localhost</address>
+		<port> 51928 </port>
+	</ffsocket>
+	<system>
+		<initialize nbeads='1'>
+			<file mode='xyz' units='angstrom'> o2h.xyz </file>
+			<cell mode='abc' units='angstrom'> [ 57.6, 57.6, 57.6 ] </cell>
+			<velocities mode='thermal' units='kelvin'> 300 </velocities>
+		</initialize>
+		<forces>
+			<force forcefield='driver'/>
+		</forces>
+		<ensemble>
+			<temperature units='kelvin'> 300 </temperature>
+		</ensemble>
+		<motion mode='dynamics'>
+			<dynamics mode='nvt'>
+				<thermostat mode='langevin'>
+					<tau units='femtosecond'> 1 </tau>
+				</thermostat>
+				<timestep units='femtosecond'> 0.5 </timestep>
+			</dynamics>
+		</motion>
+	</system>
+</simulation>

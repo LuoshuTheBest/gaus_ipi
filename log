@@ -1,0 +1,103 @@
+
+ ____       ____       ____       ____
+/    \     /    \     /    \     /    \
+|  #################################  |
+\__#_/     \____/     \____/     \_#__/
+   #    _        _______  _____    #
+   #   (_)      |_   __ \|_   _|   #      -*-     v 2.0    -*-
+   #   __  ______ | |__) | | |     #
+   Y  [  ||______||  ___/  | |     #      A Universal Force Engine
+  0 0  | |       _| |_    _| |_    #
+   #  [___]     |_____|  |_____|   #
+ __#_       ____       ____       _#__
+/  # \     /    \     /    \     / #  \
+|  #################################  |
+\____/     \____/     \____/     \____/
+
+    
+ # @simulation: Fetchingffsocket
+ # Initializing system object 
+ # Initializing simulation object 
+ # Initializing from file o2h.xyz. Dimension: length, units: angstrom, cell_units: automatic
+ # Initializing from file o2h.xyz. Dimension: length, units: automatic, cell_units: automatic
+ # Initializing from file o2h.xyz. Dimension: length, units: automatic, cell_units: automatic
+ # Initializing from file o2h.xyz. Dimension: length, units: automatic, cell_units: automatic
+ # Resampling velocities at temperature 300.0 kelvin
+ # Binding the forces 
+Created inet socket with address localhost and port number 3145
+ @ForceField: Starting the polling thread main loop.
+Backup performed: simulation.out -> #simulation.out#2#
+Backup performed: simulation.pos_0.xyz -> #simulation.pos_0.xyz#2#
+Backup performed: simulation.vel_0.xyz -> #simulation.vel_0.xyz#2#
+ # i-PI loaded input file:  input.xml
+ --- begin input file content ---
+<simulation verbosity='medium'>
+ 	<output prefix='simulation'>
+ 		<properties stride='1' filename='out'>  [step, time{femtosecond}, conserved{kelvin}, temperature{kelvin}, kinetic_cv{kelvin}, potential{electronvolt}, pressure_cv{bar}] </properties>
+ 		<trajectory filename='pos' stride='1' format='xyz' cell_units='angstrom'> positions{angstrom} </trajectory>
+ 		<trajectory filename='vel' stride='1' format='xyz' cell_units='angstrom'> velocities </trajectory>
+ 		<checkpoint filename='chk' stride='10' overwrite='True'/>
+ 	</output>
+ 	<total_steps> 5 </total_steps>
+ 	<prng>
+ 		<seed> 3348 </seed>
+ 	</prng>
+ 	<ffsocket mode='inet' name='driver' pbc='False'>
+ 		<address>localhost</address>
+ 		<port> 3145 </port>
+ 	</ffsocket>
+ 	<system>
+ 		<initialize nbeads='1'>
+ 			<file mode='xyz' units='angstrom'> o2h.xyz </file>
+ 			<cell mode='abc' units='angstrom'> [ 57.6, 57.6, 57.6 ] </cell>
+ 			<velocities mode='thermal' units='kelvin'> 300 </velocities>
+ 		</initialize>
+ 		<forces>
+ 			<force forcefield='driver'/>
+ 		</forces>
+ 		<ensemble>
+ 			<temperature units='kelvin'> 300 </temperature>
+ 			<pressure units='bar'> 10 </pressure>
+ 		</ensemble>
+ 		<motion mode='dynamics'>
+ 			<dynamics mode='npt'>
+ 				<barostat mode='isotropic'>
+ 					<tau units='femtosecond'> 10 </tau>
+ 					<thermostat mode='langevin'>
+ 						<tau units='femtosecond'> 10 </tau>
+ 					</thermostat>
+ 				</barostat>
+ 				<thermostat mode='langevin'>
+ 					<tau units='femtosecond'> 10 </tau>
+ 				</thermostat>
+ 				<timestep units='femtosecond'> 0.5 </timestep>
+ 			</dynamics>
+ 		</motion>
+ 	</system>
+ </simulation>  ---  end input file content  ---
+Backup performed: simulation.chk -> #simulation.chk#2#
+ @SOCKET:   Client asked for connection from ('127.0.0.1', 33104). Now hand-shaking.
+ @SOCKET:   Handshaking was successful. Added to the client list.
+ !W!  @SOCKET:   Inconsistent client state in dispatch thread! (III)
+ !W!  @SOCKET:   Client ('127.0.0.1', 33104) died or got unresponsive(C). Removing from the list.
+ @SOCKET:   Client asked for connection from ('127.0.0.1', 33105). Now hand-shaking.
+ @SOCKET:   Handshaking was successful. Added to the client list.
+ # Average timings at MD step       0. t/step: 3.25302e+01
+ !W!  @SOCKET:   Inconsistent client state in dispatch thread! (III)
+ !W!  @SOCKET:   Client ('127.0.0.1', 33105) died or got unresponsive(C). Removing from the list.
+ !W!  @SOFTEXIT:   Kill signal. Trying to make a clean exit.
+SOFTEXIT CALLED FROM THREAD <_MainThread(MainThread, started 47760537779104)>  @SOFTEXIT: Kill signal received
+ !W! Soft exit has been requested with message: ' @SOFTEXIT: Kill signal received'. Cleaning up.
+SOFTEXIT CALLED FROM THREAD <Thread(Thread-5, started daemon 47761045063424)>  @ FORCES : cannot return so will die off here
+ @SOCKET: Shutting down the driver interface.
+Backup performed: RESTART -> #RESTART#0#
+ last-id    0 (  0/  1 : ('127.0.0.1', 42628))
+ # Average timings at MD step       2. t/step: 3.53299e+01
+ @SOCKET: 20/08/10-12:50:00 Assigning [match] request id    0 to client with last-id    0 (  0/  1 : ('127.0.0.1', 42628))
+ # Average timings at MD step       3. t/step: 3.26489e+01
+ @SOCKET: 20/08/10-12:50:33 Assigning [match] request id    0 to client with last-id    0 (  0/  1 : ('127.0.0.1', 42628))
+ # Average timings at MD step       4. t/step: 3.26143e+01
+SOFTEXIT CALLED FROM THREAD <_MainThread(MainThread, started 47016821971872)>  @ SIMULATION: Exiting cleanly.
+ !W! Soft exit has been requested with message: ' @ SIMULATION: Exiting cleanly.'. Cleaning up.
+ @SOCKET: Shutting down the driver interface.
+SOFTEXIT: Saving the latest status at the end of the step

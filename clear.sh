@@ -1,0 +1,2 @@
+rm *RES*
+rm *simu*
