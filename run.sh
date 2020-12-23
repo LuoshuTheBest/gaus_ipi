@@ -18,7 +18,7 @@ export nbeads='1'
 export port=51928
 export seed=3348
 export temperature=300
-export total_steps=3
+export total_steps=6
 export time_step=0.5
 #For NVT and NPT
 export tau=1
@@ -31,11 +31,11 @@ export baro_mode='isotropic'
 export output_opt="prop pos vel chk"
 #####################################################################################
 
-source /home/luoshu/i-pi/env.sh
+source /home/luoshu/PycharmProjects/gaus_ipi/i-pi/env.sh
 export mol=o2h.xyz
 #moles=test; sbatch bash_opt_df.slurm $moles
 bash clear.sh
 python3 gen_input.py $mol
-i-pi input.xml & 
+i-pi input.xml &
 python3 gauss_driver.py $mol
 

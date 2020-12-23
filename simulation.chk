@@ -141,7 +141,7 @@
       <trajectory filename='vel' cell_units='angstrom'>velocities</trajectory>
       <checkpoint filename='chk' stride='10'>1</checkpoint>
    </output>
-   <total_steps>3</total_steps>
+   <total_steps>6</total_steps>
    <ffsocket name='driver' pbc='False'>
       <port>51928</port>
    </ffsocket>

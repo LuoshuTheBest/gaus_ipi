@@ -22,6 +22,7 @@ import numpy as np
 from pkg_resources import resource_filename
 import subprocess
 from mpi4py import MPI
+from communicate.get_energy import read_eg
 
 #Set up MPI environment
 comm = MPI.COMM_WORLD
@@ -251,28 +252,8 @@ class GaussDriver(BaseDriver):
             else:
                 break
         self.atoms = atoms
-    def grad(self, crd):
-        def read_eg(output):
-            with open(output, 'r') as f:
-                lines = f.readlines()
-                for idx, l in enumerate(lines):
-                    if "Sum of electronic and thermal Free Energies=" in l:
-                        ene = float(l.split()[-1])
-                    elif "Center     Atomic                   Forces" in l:
-                        grad = []
-                        idx0 = idx+3
-                        l_grad = lines[idx0]
-                        while "---------" not in l_grad:
-                            l_grad = l_grad.split()[-3:]
-                            gi = []
-                            for num in l_grad:
-                                gi.append(float(num))
-                            grad.append(gi)
-                            idx0 += 1
-                            l_grad = lines[idx0]
-                        break
-            return ene, np.asarray(grad)
 
+    def grad(self, crd):
         crd = crd/ANGSTROM
         atom = ""
         for i in range(len(self.atoms)):
@@ -280,8 +261,12 @@ class GaussDriver(BaseDriver):
         with open('1.com', 'w') as f:
             text = self.template + atom + '\n'
             f.write(text)
-        #Run gaussian to obtain energy and gradient
-
-        ene, grad = read_eg("1.log")
+        os.system("python3 /home/luoshu/PycharmProjects/gaus_ipi/communicate/update_coordinate.py")
+        # Run gaussian to obtain energy and gradient
+        os.system("python3 /home/luoshu/PycharmProjects/gaus_ipi/communicate/trans/trans_cartesian.py")
+        ene, grad = read_eg("/home/luoshu/PycharmProjects/gaus_ipi/communicate/trans/trans.txt")
+        # print("Energy: ", ene)
+        # print("Gradient: ", grad)
+        # print("Returned energy: ", ene*EH)
+        # print("Returned gradient: ", grad*(EH/BOHR))
         return ene*EH, grad*(EH/BOHR)
-
